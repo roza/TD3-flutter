@@ -69,4 +69,30 @@ class Task {
           : Colors.greenAccent,
     );
   }
+
+  // Conversion en Map pour SQLite
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'tags': tags.join(','), // Stocke les tags comme une chaîne séparée par virgules
+      'nbhours': nbhours,
+      'difficulty': difficulty,
+      'description': description,
+      'color': color.value.toInt(), // Stocke la valeur numérique de la couleur
+    };
+  }
+
+  // Création d'une Task depuis une Map SQLite
+  static Task fromMap(Map<String, dynamic> map) {
+    return Task(
+      id: map['id'] as int,
+      title: map['title'] as String,
+      tags: (map['tags'] as String).split(','), // Reconvertit la chaîne en liste
+      nbhours: map['nbhours'] as int,
+      difficulty: map['difficulty'] as int,
+      description: map['description'] as String,
+      color: Color(map['color'] as int),
+    );
+  }
 }

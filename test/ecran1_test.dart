@@ -9,7 +9,7 @@ void main() {
     testWidgets('affiche une liste de tâches', (WidgetTester tester) async {
       // --- ARRANGE ---
       final taskViewModel = TaskViewModel();
-      taskViewModel.generateTasks();
+      await taskViewModel.generateTasks();
 
       await tester.pumpWidget(
         ChangeNotifierProvider<TaskViewModel>.value(
@@ -21,6 +21,9 @@ void main() {
           ),
         ),
       );
+
+      // Attend que le widget soit reconstruit après le chargement
+      await tester.pumpAndSettle();
 
       // --- ASSERT ---
       // Vérifie que des Cards sont affichées
@@ -40,7 +43,7 @@ void main() {
         (WidgetTester tester) async {
       // --- ARRANGE ---
       final taskViewModel = TaskViewModel();
-      taskViewModel.generateTasks();
+      await taskViewModel.generateTasks();
 
       await tester.pumpWidget(
         ChangeNotifierProvider<TaskViewModel>.value(
@@ -52,6 +55,9 @@ void main() {
           ),
         ),
       );
+
+      // Attend que le widget soit reconstruit après le chargement
+      await tester.pumpAndSettle();
 
       // --- ASSERT ---
       // Vérifie que les titres sont affichés
@@ -70,7 +76,7 @@ void main() {
         (WidgetTester tester) async {
       // --- ARRANGE ---
       final taskViewModel = TaskViewModel();
-      taskViewModel.generateTasks();
+      await taskViewModel.generateTasks();
 
       await tester.pumpWidget(
         ChangeNotifierProvider<TaskViewModel>.value(
@@ -82,6 +88,9 @@ void main() {
           ),
         ),
       );
+
+      // Attend que le widget soit reconstruit après le chargement
+      await tester.pumpAndSettle();
 
       // --- ASSERT ---
       // Vérifie qu'il y a des icônes edit (une par tâche)
@@ -92,7 +101,7 @@ void main() {
         (WidgetTester tester) async {
       // --- ARRANGE ---
       final taskViewModel = TaskViewModel();
-      taskViewModel.generateTasks();
+      await taskViewModel.generateTasks();
 
       await tester.pumpWidget(
         ChangeNotifierProvider<TaskViewModel>.value(
@@ -104,6 +113,9 @@ void main() {
           ),
         ),
       );
+
+      // Attend que le widget soit reconstruit après le chargement
+      await tester.pumpAndSettle();
 
       // --- ACT ---
       // Trouve le premier bouton edit et clique dessus
@@ -125,7 +137,7 @@ void main() {
         (WidgetTester tester) async {
       // --- ARRANGE ---
       final taskViewModel = TaskViewModel();
-      taskViewModel.generateTasks();
+      await taskViewModel.generateTasks();
 
       await tester.pumpWidget(
         ChangeNotifierProvider<TaskViewModel>.value(
@@ -138,6 +150,9 @@ void main() {
           ),
         ),
       );
+
+      // Attend que le widget soit reconstruit après le chargement
+      await tester.pumpAndSettle();
 
       // --- ACT ---
       final card = tester.widget<Card>(find.byType(Card).first);

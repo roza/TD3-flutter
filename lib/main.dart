@@ -4,8 +4,15 @@ import 'package:td3/UI/mytheme.dart';
 import 'package:td3/UI/home.dart';
 import 'package:td3/ViewModel/setting_view_model.dart';
 import 'package:td3/ViewModel/task_view_model.dart';
+import 'package:td3/database/database_helper.dart';
 
-void main() {
+void main() async {
+  // Initialisation nécessaire pour utiliser les plugins Flutter avant runApp
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialiser la base de données
+  await DatabaseHelper.instance.database;
+
   runApp(const MyTD3App());
 }
 
