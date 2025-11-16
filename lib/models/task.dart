@@ -79,7 +79,8 @@ class Task {
       'nbhours': nbhours,
       'difficulty': difficulty,
       'description': description,
-      'color': color.value.toInt(), // Stocke la valeur numérique de la couleur
+      // ignore: deprecated_member_use
+      'color': color.value, // Stocke la valeur numérique de la couleur
     };
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:td3/ViewModel/setting_view_model.dart';
-import 'package:td3/repository/settings_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

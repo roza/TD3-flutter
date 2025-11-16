@@ -97,7 +97,7 @@ void main() {
       expect(find.byIcon(Icons.edit), findsWidgets);
     });
 
-    testWidgets('navigue vers l\'écran de détail quand on clique sur edit',
+    testWidgets('navigue vers le formulaire d\'édition quand on clique sur edit',
         (WidgetTester tester) async {
       // --- ARRANGE ---
       final taskViewModel = TaskViewModel();
@@ -124,13 +124,13 @@ void main() {
       await tester.pumpAndSettle();
 
       // --- ASSERT ---
-      // Vérifie qu'on est bien sur l'écran de détail
-      expect(find.textContaining('Task title 0 detail'), findsOneWidget);
+      // Vérifie qu'on est bien sur l'écran de modification (TaskForm)
+      expect(find.text('Modifier la tâche'), findsOneWidget);
 
-      // Vérifie que les informations de la tâche sont affichées
-      expect(find.text('Identifiant'), findsOneWidget);
-      expect(find.text('Titre de la tache'), findsOneWidget);
-      expect(find.text('Description de la tache '), findsOneWidget);
+      // Vérifie que les champs du formulaire sont affichés
+      expect(find.text('Titre'), findsOneWidget);
+      expect(find.text('Description'), findsOneWidget);
+      expect(find.text('Enregistrer'), findsOneWidget);
     });
 
     testWidgets('utilise le thème du contexte pour les Cards',

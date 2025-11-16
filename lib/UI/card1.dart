@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:td3/UI/detail.dart';
+import 'package:td3/UI/task_form.dart';
 import 'package:td3/ViewModel/task_view_model.dart';
 
 class Ecran1 extends StatelessWidget {
@@ -30,7 +30,7 @@ class Ecran1 extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Detail(task: tasks[index]),
+                    builder: (context) => TaskForm(task: tasks[index]), // Mode édition
                   ),
                 );
               },

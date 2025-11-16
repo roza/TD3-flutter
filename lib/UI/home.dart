@@ -3,7 +3,7 @@ import 'package:td3/UI/card1.dart';
 import 'package:td3/UI/card2.dart';
 import 'package:td3/UI/card3.dart';
 import 'package:td3/UI/ecran_four.dart';
-import 'package:td3/UI/add_task.dart';
+import 'package:td3/UI/task_form.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AddTask(),
+                    builder: (context) => const TaskForm(), // Mode création
                   ),
                 );
               },
