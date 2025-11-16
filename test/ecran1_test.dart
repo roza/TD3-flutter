@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 import 'package:td3/UI/card1.dart';
-import 'package:td3/models/task.dart';
+import 'package:td3/ViewModel/task_view_model.dart';
 
 void main() {
   group('Ecran1 (Tâches générées aléatoirement)', () {
     testWidgets('affiche une liste de tâches', (WidgetTester tester) async {
       // --- ARRANGE ---
+      final taskViewModel = TaskViewModel();
+      taskViewModel.generateTasks();
+
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Ecran1(),
+        ChangeNotifierProvider<TaskViewModel>.value(
+          value: taskViewModel,
+          child: const MaterialApp(
+            home: Scaffold(
+              body: Ecran1(),
+            ),
           ),
         ),
       );
@@ -25,17 +32,23 @@ void main() {
       // Vérifie que des CircleAvatar sont affichés (pour les IDs)
       expect(find.byType(CircleAvatar), findsWidgets);
 
-      // Vérifie qu'il y a exactement 6 tâches (comme défini dans Ecran1)
-      expect(find.byType(Card), findsNWidgets(6));
+      // Vérifie qu'il y a au moins des tâches (50 générées par TaskViewModel)
+      expect(find.byType(Card), findsWidgets);
     });
 
     testWidgets('affiche les informations des tâches correctement',
         (WidgetTester tester) async {
       // --- ARRANGE ---
+      final taskViewModel = TaskViewModel();
+      taskViewModel.generateTasks();
+
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Ecran1(),
+        ChangeNotifierProvider<TaskViewModel>.value(
+          value: taskViewModel,
+          child: const MaterialApp(
+            home: Scaffold(
+              body: Ecran1(),
+            ),
           ),
         ),
       );
@@ -56,26 +69,38 @@ void main() {
     testWidgets('affiche des boutons edit pour chaque tâche',
         (WidgetTester tester) async {
       // --- ARRANGE ---
+      final taskViewModel = TaskViewModel();
+      taskViewModel.generateTasks();
+
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Ecran1(),
+        ChangeNotifierProvider<TaskViewModel>.value(
+          value: taskViewModel,
+          child: const MaterialApp(
+            home: Scaffold(
+              body: Ecran1(),
+            ),
           ),
         ),
       );
 
       // --- ASSERT ---
-      // Vérifie qu'il y a 6 icônes edit (une par tâche)
-      expect(find.byIcon(Icons.edit), findsNWidgets(6));
+      // Vérifie qu'il y a des icônes edit (une par tâche)
+      expect(find.byIcon(Icons.edit), findsWidgets);
     });
 
     testWidgets('navigue vers l\'écran de détail quand on clique sur edit',
         (WidgetTester tester) async {
       // --- ARRANGE ---
+      final taskViewModel = TaskViewModel();
+      taskViewModel.generateTasks();
+
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Ecran1(),
+        ChangeNotifierProvider<TaskViewModel>.value(
+          value: taskViewModel,
+          child: const MaterialApp(
+            home: Scaffold(
+              body: Ecran1(),
+            ),
           ),
         ),
       );
@@ -99,11 +124,17 @@ void main() {
     testWidgets('utilise le thème du contexte pour les Cards',
         (WidgetTester tester) async {
       // --- ARRANGE ---
+      final taskViewModel = TaskViewModel();
+      taskViewModel.generateTasks();
+
       await tester.pumpWidget(
-        MaterialApp(
-          theme: ThemeData.light(),
-          home: Scaffold(
-            body: Ecran1(),
+        ChangeNotifierProvider<TaskViewModel>.value(
+          value: taskViewModel,
+          child: MaterialApp(
+            theme: ThemeData.light(),
+            home: const Scaffold(
+              body: Ecran1(),
+            ),
           ),
         ),
       );

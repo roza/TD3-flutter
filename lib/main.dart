@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:td3/UI/mytheme.dart';
 import 'package:td3/UI/home.dart';
 import 'package:td3/ViewModel/setting_view_model.dart';
+import 'package:td3/ViewModel/task_view_model.dart';
 
 void main() {
   runApp(const MyTD3App());
@@ -13,8 +14,22 @@ class MyTD3App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => SettingViewModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) {
+            SettingViewModel settingViewModel = SettingViewModel();
+            return settingViewModel;
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (_) {
+            TaskViewModel taskViewModel = TaskViewModel();
+            taskViewModel.generateTasks();
+            return taskViewModel;
+          },
+        ),
+      ],
       child: Consumer<SettingViewModel>(
         builder: (context, vm, _) {
           return MaterialApp(

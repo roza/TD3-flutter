@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:td3/models/task.dart';
+import 'package:provider/provider.dart';
 import 'package:td3/UI/detail.dart';
+import 'package:td3/ViewModel/task_view_model.dart';
 
 class Ecran1 extends StatelessWidget {
-  final List<Task> myTasks = Task.generateTask(6);
-
-  Ecran1({super.key});
+  const Ecran1({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final tasks = context.watch<TaskViewModel>().liste;
+
     return ListView.builder(
-      itemCount: myTasks.length,
+      itemCount: tasks.length,
       itemBuilder: (BuildContext context, int index) {
         return Card(
           color: Theme.of(context).cardColor,
@@ -19,18 +20,17 @@ class Ecran1 extends StatelessWidget {
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.lightBlue,
-              child: Text(myTasks[index].id.toString()),
+              child: Text(tasks[index].id.toString()),
             ),
-            title: Text(myTasks[index].title),
-            subtitle: Text(myTasks[index].tags.join(" ")),
+            title: Text(tasks[index].title),
+            subtitle: Text(tasks[index].tags.join(" ")),
             trailing: IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) 
-                    => Detail(task: myTasks[index]),
+                    builder: (context) => Detail(task: tasks[index]),
                   ),
                 );
               },

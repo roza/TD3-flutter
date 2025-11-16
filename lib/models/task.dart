@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Task {
+  static int nb = 0; // Compteur statique pour générer des IDs uniques
+
   int id;
   String title;
   List<String> tags;
@@ -18,6 +20,20 @@ class Task {
     required this.description,
     required this.color,
   });
+
+  // Factory pour créer une nouvelle tâche avec un ID auto-incrémenté
+  factory Task.newTask() {
+    nb++;
+    return Task(
+      id: nb,
+      title: 'title $nb',
+      tags: ['tag $nb'],
+      nbhours: nb,
+      difficulty: nb % 5,
+      description: 'description $nb',
+      color: Colors.lightBlue,
+    );
+  }
 
   static List<Task> generateTask(int i) {
     List<Task> tasks = [];

@@ -3,6 +3,7 @@ import 'package:td3/UI/card1.dart';
 import 'package:td3/UI/card2.dart';
 import 'package:td3/UI/card3.dart';
 import 'package:td3/UI/ecran_four.dart';
+import 'package:td3/UI/add_task.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -33,6 +34,19 @@ class _HomeState extends State<Home> {
         ),
       ),
       body: pages[_selectedIndex],
+      floatingActionButton: _selectedIndex == 0
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddTask(),
+                  ),
+                );
+              },
+              child: const Icon(Icons.add),
+            )
+          : const SizedBox.shrink(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Theme.of(context).textSelectionTheme.selectionColor,
         currentIndex: _selectedIndex,
