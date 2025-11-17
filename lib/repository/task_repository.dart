@@ -20,7 +20,10 @@ class TaskRepository {
   // Créer une tâche
   Future<Task> create(Task task) async {
     final db = await _database;
-    await db.insert(tableName, task.toMap());
+    // Utiliser toMap(includeId: false) pour laisser SQLite générer l'ID
+    final id = await db.insert(tableName, task.toMap(includeId: false));
+    // Retourner la tâche avec son ID généré par la base de données
+    task.id = id;
     return task;
   }
 

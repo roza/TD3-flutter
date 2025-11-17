@@ -71,9 +71,8 @@ class Task {
   }
 
   // Conversion en Map pour SQLite
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
+  Map<String, dynamic> toMap({bool includeId = true}) {
+    final map = {
       'title': title,
       'tags': tags.join(','), // Stocke les tags comme une chaîne séparée par virgules
       'nbhours': nbhours,
@@ -82,6 +81,13 @@ class Task {
       // ignore: deprecated_member_use
       'color': color.value, // Stocke la valeur numérique de la couleur
     };
+
+    // Inclure l'ID seulement si demandé (pour les updates, pas pour les inserts)
+    if (includeId) {
+      map['id'] = id;
+    }
+
+    return map;
   }
 
   // Création d'une Task depuis une Map SQLite

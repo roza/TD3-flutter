@@ -23,7 +23,7 @@ void main() {
         onCreate: (db, version) async {
           await db.execute('''
             CREATE TABLE tasks (
-              id INTEGER PRIMARY KEY,
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
               title TEXT NOT NULL,
               description TEXT,
               tags TEXT,
@@ -159,10 +159,10 @@ void main() {
     });
 
     test('getMaxId returns highest id', () async {
-      // Arrange
+      // Arrange - IDs sont maintenant auto-générés par SQLite AUTOINCREMENT
       final task1 = Task(
-        id: 5,
-        title: 'Task 5',
+        id: 0,  // ID sera généré automatiquement
+        title: 'Task 1',
         description: 'Desc',
         tags: ['tag'],
         nbhours: 1,
@@ -170,8 +170,8 @@ void main() {
         color: Colors.blue,
       );
       final task2 = Task(
-        id: 10,
-        title: 'Task 10',
+        id: 0,  // ID sera généré automatiquement
+        title: 'Task 2',
         description: 'Desc',
         tags: ['tag'],
         nbhours: 1,
@@ -185,8 +185,8 @@ void main() {
       // Act
       final maxId = await repository.getMaxId();
 
-      // Assert
-      expect(maxId, 10);
+      // Assert - Avec AUTOINCREMENT, le deuxième task aura ID = 2
+      expect(maxId, 2);
     });
 
     test('getMaxId returns 0 when database is empty', () async {
@@ -217,6 +217,38 @@ void main() {
 
       // Assert
       expect(count, 1);
+    });
+
+    test('create with auto-generated ID does not cause UNIQUE constraint error', () async {
+      // Ce test reproduit le bug Windows : insertion multiple avec même ID
+      // Arrange
+      final task1 = Task(
+        id: 0,  // Même ID
+        title: 'Task 1',
+        description: 'Desc 1',
+        tags: ['tag1'],
+        nbhours: 1,
+        difficulty: 1,
+        color: Colors.blue,
+      );
+      final task2 = Task(
+        id: 0,  // Même ID - devrait causer une erreur avec l'ancien code
+        title: 'Task 2',
+        description: 'Desc 2',
+        tags: ['tag2'],
+        nbhours: 2,
+        difficulty: 2,
+        color: Colors.red,
+      );
+
+      // Act & Assert - Ne devrait PAS lever d'exception
+      await repository.create(task1);
+      await repository.create(task2);
+
+      // Vérifier que les deux tâches ont été créées avec des IDs différents
+      final tasks = await repository.readAll();
+      expect(tasks.length, 2);
+      expect(tasks[0].id, isNot(equals(tasks[1].id)));
     });
   });
 }
